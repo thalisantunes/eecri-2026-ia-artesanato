@@ -1,0 +1,43 @@
+=== MENSAGEM 1 DO USUARIO ===
+Você vai escrever código OpenSCAD para peças que serão cortadas e gravadas numa máquina a laser. Siga estas regras em todas as respostas desta conversa.
+
+1. Versão: OpenSCAD 2021.01. Use só a linguagem básica. Nada de bibliotecas (nenhum include nem use). Estes recursos NÃO existem nesta versão e não podem aparecer: roof(), fill(), textmetrics(). Não use minkowski(); para cantos arredondados use offset().
+2. Unidade: tudo em milímetros. Nunca use centímetros nem polegadas.
+3. Só 2D no topo: o que o arquivo gera no nível mais alto deve ser geometria 2D (square, circle, polygon, text, offset, difference, union, translate, rotate). Não use cube, cylinder, linear_extrude, rotate_extrude nem nenhum objeto 3D no topo do arquivo, nem para pré-visualização.
+4. Parâmetros: todos os números ficam no começo do arquivo, como variáveis com nome em inglês e um comentário em português, sem acento, com a unidade. Nada de número solto no meio do código, exceto constantes óbvias (0, 1, 2).
+5. Camadas: o arquivo tem a variável layer = "cut"; // [cut, engrave]. Quando layer for "cut", o topo gera só o que deve ser CORTADO (contornos e furos). Quando layer for "engrave", gera só o que deve ser GRAVADO (texto e desenhos). O arquivo será exportado duas vezes, uma por camada.
+6. Marcas de registro: inclua a variável registration = true; e, quando for true, desenhe nas DUAS camadas dois círculos de 0.6 mm de diâmetro (com $fn = 16). O centro de um fica 3 mm abaixo e 3 mm à esquerda do canto inferior esquerdo da área ocupada pelas peças (3 mm em X e 3 mm em Y); o centro do outro fica 3 mm acima e 3 mm à direita do canto superior direito. Elas fazem os dois arquivos terem o mesmo quadro.
+7. Kerf: NÃO compense o kerf na geometria. A compensação é feita no software de corte. A única folga permitida é o parâmetro clearance, usado só em encaixes.
+8. Texto: use a fonte Liberation Sans, com o parâmetro bold (true = negrito, o padrão): font = bold ? "Liberation Sans:style=Bold" : "Liberation Sans". O texto deve caber dentro da peça.
+9. Círculos: use $fn = 64.
+10. Conferência: use echo() para escrever no console as dimensões finais (largura e altura totais da peça ou do conjunto de peças e outros números que eu possa conferir).
+11. Resposta: devolva o arquivo COMPLETO num único bloco de código, sem reticências nem trechos omitidos. Depois do código, explique em até 5 linhas o que cada parâmetro faz. Se algo no meu pedido for ambíguo, pergunte antes de escrever o código.
+
+Responda só "entendido" e espere o pedido da peça.
+
+=== SUA RESPOSTA A MENSAGEM 1 ===
+entendido
+
+=== MENSAGEM 2 DO USUARIO ===
+Peça: tira de MDF de 3 mm com dobradiça viva: uma região cortada com fendas finas e paralelas, que deixam o MDF curvar.
+Material: MDF de 3 mm.
+Exceção às regras 5 e 6 do Bloco base: esta peça tem só a camada cut. Declare layer = "cut"; // [cut], sem camada engrave e sem marcas de registro.
+
+Use estes nomes de parâmetros e estes valores iniciais:
+- length = 80 (comprimento da tira, mm, no sentido da dobra: eixo X)
+- width = 50 (largura da tira, mm, no sentido das fendas: eixo Y)
+- slot_length = 15 (comprimento de cada fenda, mm)
+- slot_gap = 3 (ponte de material inteiro entre duas fendas da mesma fileira, mm)
+- row_spacing = 2.5 (distância entre fileiras de fendas, centro a centro, mm)
+- rigid_end = 10 (trecho rígido em cada ponta, sem fendas, mm)
+- edge_margin = 4 (borda sem fenda nas fileiras pares, mm)
+- slot_width = 0.1 (largura desenhada de cada fenda, mm)
+- overshoot = 1 (quanto as fendas das pontas passam da borda nas fileiras ímpares, mm)
+
+Receita (siga exatamente):
+1. A tira é o retângulo length x width, com um canto em (0, 0), MENOS todas as fendas (difference). Cada fenda é um retângulo fino: slot_width no eixo X, centrado na posição da sua fileira, e o comprimento no eixo Y.
+2. Fileiras: n_rows = floor((length - 2 * rigid_end) / row_spacing) + 1. A fileira r (r = 0, 1, ... n_rows - 1) fica em x = x0 + r * row_spacing, com x0 = (length - (n_rows - 1) * row_spacing) / 2.
+3. Medidas auxiliares: period = slot_length + slot_gap; inner_w = width - 2 * edge_margin; n_even = floor((inner_w + slot_gap) / period); y0 = edge_margin + (inner_w - (n_even * period - slot_gap)) / 2.
+4. Fileira par (r = 0, 2, 4...): n_even fendas inteiras. A fenda k (k = 0 ... n_even - 1) vai de y = y0 + k * period até y = y0 + k * period + slot_length.
+5. Fileira ímpar (r = 1, 3, 5...): deslocada em meio período, com n_even + 1 fendas. Para k = 0 ... n_even, seja a0 = y0 - period / 2 + k * period. A fenda k vai de a0 até a0 + slot_length, EXCETO a primeira (k = 0), que começa em y = -overshoot, e a última (k = n_even), que termina em y = width + overshoot. Assim as fileiras ímpares abrem a borda da tira, e ela dobra em toda a largura; as fileiras pares mantêm a borda inteira, e a tira não se solta.
+Mostre com echo(): n_rows, n_even e o número de fendas de uma fileira par e de uma ímpar.

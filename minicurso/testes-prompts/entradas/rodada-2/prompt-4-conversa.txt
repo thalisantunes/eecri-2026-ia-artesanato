@@ -1,0 +1,39 @@
+=== MENSAGEM 1 DO USUARIO ===
+Você vai escrever código OpenSCAD para peças que serão cortadas e gravadas numa máquina a laser. Siga estas regras em todas as respostas desta conversa.
+
+1. Versão: OpenSCAD 2021.01. Use só a linguagem básica. Nada de bibliotecas (nenhum include nem use). Estes recursos NÃO existem nesta versão e não podem aparecer: roof(), fill(), textmetrics(). Não use minkowski(); para cantos arredondados use offset().
+2. Unidade: tudo em milímetros. Nunca use centímetros nem polegadas.
+3. Só 2D no topo: o que o arquivo gera no nível mais alto deve ser geometria 2D (square, circle, polygon, text, offset, difference, union, translate, rotate). Não use cube, cylinder, linear_extrude, rotate_extrude nem nenhum objeto 3D no topo do arquivo, nem para pré-visualização.
+4. Parâmetros: todos os números ficam no começo do arquivo, como variáveis com nome em inglês e um comentário em português, sem acento, com a unidade. Nada de número solto no meio do código, exceto constantes óbvias (0, 1, 2).
+5. Camadas: o arquivo tem a variável layer = "cut"; // [cut, engrave]. Quando layer for "cut", o topo gera só o que deve ser CORTADO (contornos e furos). Quando layer for "engrave", gera só o que deve ser GRAVADO (texto e desenhos). O arquivo será exportado duas vezes, uma por camada.
+6. Marcas de registro: inclua a variável registration = true; e, quando for true, desenhe nas DUAS camadas dois círculos de 0.6 mm de diâmetro (com $fn = 16). O centro de um fica 3 mm abaixo e 3 mm à esquerda do canto inferior esquerdo da área ocupada pelas peças (3 mm em X e 3 mm em Y); o centro do outro fica 3 mm acima e 3 mm à direita do canto superior direito. Elas fazem os dois arquivos terem o mesmo quadro.
+7. Kerf: NÃO compense o kerf na geometria. A compensação é feita no software de corte. A única folga permitida é o parâmetro clearance, usado só em encaixes.
+8. Texto: use a fonte Liberation Sans, com o parâmetro bold (true = negrito, o padrão): font = bold ? "Liberation Sans:style=Bold" : "Liberation Sans". O texto deve caber dentro da peça.
+9. Círculos: use $fn = 64.
+10. Conferência: use echo() para escrever no console as dimensões finais (largura e altura totais da peça ou do conjunto de peças e outros números que eu possa conferir).
+11. Resposta: devolva o arquivo COMPLETO num único bloco de código, sem reticências nem trechos omitidos. Depois do código, explique em até 5 linhas o que cada parâmetro faz. Se algo no meu pedido for ambíguo, pergunte antes de escrever o código.
+
+Responda só "entendido" e espere o pedido da peça.
+
+=== SUA RESPOSTA A MENSAGEM 1 ===
+entendido
+
+=== MENSAGEM 2 DO USUARIO ===
+Peça: tira de MDF de 3 mm com dobradiça viva: uma região cortada com fendas finas e paralelas, que deixam o MDF curvar.
+Material: MDF de 3 mm.
+
+Use estes nomes de parâmetros e estes valores iniciais:
+- length = 80 (comprimento da tira, mm, no sentido da dobra)
+- width = 50 (largura da tira, mm, no sentido das fendas)
+- slot_length = 15 (comprimento de cada fenda, mm)
+- slot_gap = 3 (mm de material inteiro entre duas fendas da mesma fileira)
+- row_spacing = 2.5 (distância entre fileiras de fendas, centro a centro, mm)
+- rigid_end = 10 (mm rígidos em cada ponta, sem fendas)
+- edge_margin = 4 (mm sem fenda junto às bordas laterais)
+- slot_width = 0.1 (largura do retângulo de cada fenda, mm)
+- corner_radius = 3 (raio dos cantos da tira, mm)
+
+Geometria: as fendas são retângulos finos, paralelos ao lado de tamanho width. Ficam em fileiras separadas por row_spacing, entre os trechos rígidos das pontas. O número de fileiras é floor((length - 2 * rigid_end) / row_spacing), e a primeira fileira fica a row_spacing / 2 depois do trecho rígido da ponta em que length vale 0. Em cada fileira as fendas se repetem a cada (slot_length + slot_gap). Nas fileiras de número par (0, 2, 4...), a primeira fenda começa em edge_margin, contado a partir da borda em que a largura vale 0. Nas fileiras de número ímpar, o padrão é deslocado em meio período, de modo que uma fenda fica ao lado de uma ponte da fileira vizinha. Nenhuma fenda chega a menos de edge_margin das bordas laterais; se uma fenda for cortada pela margem, encurte-a, e descarte-a se sobrar menos de 1 mm.
+Camada "cut": contorno arredondado MENOS todas as fendas.
+Camada "engrave": sem gravação; o arquivo só terá as marcas de registro.
+Mostre com echo() o número de fileiras e o número de fendas por fileira.

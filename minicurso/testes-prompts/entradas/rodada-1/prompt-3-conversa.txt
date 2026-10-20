@@ -1,0 +1,41 @@
+=== MENSAGEM 1 DO USUARIO ===
+Você vai escrever código OpenSCAD para peças que serão cortadas e gravadas numa máquina a laser. Siga estas regras em todas as respostas desta conversa.
+
+1. Versão: OpenSCAD 2021.01. Use só a linguagem básica. Nada de bibliotecas (nenhum include nem use). Estes recursos NÃO existem nesta versão e não podem aparecer: roof(), fill(), textmetrics(). Não use minkowski(); para cantos arredondados use offset().
+2. Unidade: tudo em milímetros. Nunca use centímetros nem polegadas.
+3. Só 2D no topo: o que o arquivo gera no nível mais alto deve ser geometria 2D (square, circle, polygon, text, offset, difference, union, translate, rotate). Não use cube, cylinder, linear_extrude, rotate_extrude nem nenhum objeto 3D no topo do arquivo, nem para pré-visualização.
+4. Parâmetros: todos os números ficam no começo do arquivo, como variáveis com nome em inglês e um comentário em português, sem acento, com a unidade. Nada de número solto no meio do código, exceto constantes óbvias (0, 1, 2).
+5. Camadas: o arquivo tem a variável layer = "cut"; // [cut, engrave]. Quando layer for "cut", o topo gera só o que deve ser CORTADO (contornos e furos). Quando layer for "engrave", gera só o que deve ser GRAVADO (texto e desenhos). O arquivo será exportado duas vezes, uma por camada.
+6. Marcas de registro: inclua a variável registration = true; e, quando for true, desenhe nas DUAS camadas dois círculos de 0.6 mm de diâmetro (com $fn = 16): um 3 mm abaixo e à esquerda do canto inferior esquerdo da área ocupada pelas peças, outro 3 mm acima e à direita do canto superior direito. Elas fazem os dois arquivos terem o mesmo quadro.
+7. Kerf: NÃO compense o kerf na geometria. A compensação é feita no software de corte. A única folga permitida é o parâmetro clearance, usado só em encaixes.
+8. Texto: use a fonte Liberation Sans, com o parâmetro bold (true = negrito, o padrão): font = bold ? "Liberation Sans:style=Bold" : "Liberation Sans". O texto deve caber dentro da peça.
+9. Círculos: use $fn = 64.
+10. Conferência: use echo() para escrever no console as dimensões finais (largura e altura totais da peça ou do conjunto de peças e outros números que eu possa conferir).
+11. Resposta: devolva o arquivo COMPLETO num único bloco de código, sem reticências nem trechos omitidos. Depois do código, explique em até 5 linhas o que cada parâmetro faz. Se algo no meu pedido for ambíguo, pergunte antes de escrever o código.
+
+Responda só "entendido" e espere o pedido da peça.
+
+=== SUA RESPOSTA A MENSAGEM 1 ===
+entendido
+
+=== MENSAGEM 2 DO USUARIO ===
+Peça: placa retangular de cantos arredondados, com furos de fixação opcionais e texto gravado em duas linhas (título e subtítulo).
+Material: MDF de 3 mm ou acrílico de 3 mm. A peça é plana.
+
+Use estes nomes de parâmetros e estes valores iniciais:
+- width = 120 e height = 50 (largura e altura da placa, mm)
+- corner_radius = 3 (raio dos cantos, mm)
+- margin = 6 (margem entre os textos e a borda, mm)
+- holes = 2 (0 = sem furos, 2 = furos nos dois cantos de cima, 4 = nos quatro cantos)
+- hole_diameter = 4 (diâmetro dos furos, mm)
+- hole_margin = 4 (distância da borda da placa até a borda do furo, mm)
+- title = "CASA DA ANA" e title_size = 9 (primeira linha e altura desejada das letras, mm)
+- subtitle = "Artesanato em couro" e subtitle_size = 5.5 (segunda linha, mm)
+- line_gap = 5 (espaço entre as duas linhas, mm)
+- bold = true
+- border = false (moldura gravada; ligue só se quiser), border_width = 0.8 e border_inset = 3.5 (mm)
+
+Camada "cut": contorno arredondado MENOS os furos.
+Camada "engrave": as duas linhas de texto, centralizadas na horizontal, o título logo acima do centro da placa e o subtítulo logo abaixo, separados por line_gap. Se border for true, inclua também um filete retangular de largura border_width, a border_inset da borda.
+Cada linha precisa caber na largura livre = width - 2 * margin. Tamanho final de cada linha = min(tamanho desejado, largura livre / (len(texto) * 0.9)).
+Mostre com echo() a largura livre e os tamanhos finais das linhas.

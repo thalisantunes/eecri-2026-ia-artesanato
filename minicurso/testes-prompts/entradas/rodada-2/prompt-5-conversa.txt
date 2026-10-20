@@ -1,0 +1,38 @@
+=== MENSAGEM 1 DO USUARIO ===
+Você vai escrever código OpenSCAD para peças que serão cortadas e gravadas numa máquina a laser. Siga estas regras em todas as respostas desta conversa.
+
+1. Versão: OpenSCAD 2021.01. Use só a linguagem básica. Nada de bibliotecas (nenhum include nem use). Estes recursos NÃO existem nesta versão e não podem aparecer: roof(), fill(), textmetrics(). Não use minkowski(); para cantos arredondados use offset().
+2. Unidade: tudo em milímetros. Nunca use centímetros nem polegadas.
+3. Só 2D no topo: o que o arquivo gera no nível mais alto deve ser geometria 2D (square, circle, polygon, text, offset, difference, union, translate, rotate). Não use cube, cylinder, linear_extrude, rotate_extrude nem nenhum objeto 3D no topo do arquivo, nem para pré-visualização.
+4. Parâmetros: todos os números ficam no começo do arquivo, como variáveis com nome em inglês e um comentário em português, sem acento, com a unidade. Nada de número solto no meio do código, exceto constantes óbvias (0, 1, 2).
+5. Camadas: o arquivo tem a variável layer = "cut"; // [cut, engrave]. Quando layer for "cut", o topo gera só o que deve ser CORTADO (contornos e furos). Quando layer for "engrave", gera só o que deve ser GRAVADO (texto e desenhos). O arquivo será exportado duas vezes, uma por camada.
+6. Marcas de registro: inclua a variável registration = true; e, quando for true, desenhe nas DUAS camadas dois círculos de 0.6 mm de diâmetro (com $fn = 16). O centro de um fica 3 mm abaixo e 3 mm à esquerda do canto inferior esquerdo da área ocupada pelas peças (3 mm em X e 3 mm em Y); o centro do outro fica 3 mm acima e 3 mm à direita do canto superior direito. Elas fazem os dois arquivos terem o mesmo quadro.
+7. Kerf: NÃO compense o kerf na geometria. A compensação é feita no software de corte. A única folga permitida é o parâmetro clearance, usado só em encaixes.
+8. Texto: use a fonte Liberation Sans, com o parâmetro bold (true = negrito, o padrão): font = bold ? "Liberation Sans:style=Bold" : "Liberation Sans". O texto deve caber dentro da peça.
+9. Círculos: use $fn = 64.
+10. Conferência: use echo() para escrever no console as dimensões finais (largura e altura totais da peça ou do conjunto de peças e outros números que eu possa conferir).
+11. Resposta: devolva o arquivo COMPLETO num único bloco de código, sem reticências nem trechos omitidos. Depois do código, explique em até 5 linhas o que cada parâmetro faz. Se algo no meu pedido for ambíguo, pergunte antes de escrever o código.
+
+Responda só "entendido" e espere o pedido da peça.
+
+=== SUA RESPOSTA A MENSAGEM 1 ===
+entendido
+
+=== MENSAGEM 2 DO USUARIO ===
+Peça: lote de chaveiros com nomes, para cortar e gravar todos numa mesma chapa.
+Material: MDF de 3 mm, acrílico de 3 mm ou couro.
+
+Use estes nomes de parâmetros e estes valores iniciais:
+- labels = ["ANA", "BRUNO", "CARLA", "DANIEL", "ELISA", "FELIPE", "GABRIELA", "HUGO"] (um nome por chaveiro; eu vou trocar pelos nomes da turma)
+- columns = 2 (quantos chaveiros por linha)
+- tag_gap = 3 (espaço entre chaveiros, mm)
+- tag_width = 70, tag_height = 25, corner_radius = 4, hole_diameter = 4.5 e hole_margin = 3.5 (o mesmo chaveiro do exercício 1, mm)
+- font_size = 8 (tamanho desejado das letras, o size do OpenSCAD), bold = true e text_margin = 3 (mm)
+
+Regras:
+- Crie um module para UM chaveiro (contorno e furo) e um module para o texto de UM nome. Repita os dois com um laço for e uma função pos(i) que devolve a posição de cada chaveiro na grade.
+- A primeira linha da grade é a de cima: o primeiro nome fica no canto superior esquerdo.
+- Camada "cut": o contorno de cada chaveiro, cada um com o seu furo subtraído (o furo é cortado). Camada "engrave": todos os nomes (mais as marcas de registro).
+- O texto de cada chaveiro fica na área livre à direita do furo, como no exercício 1: começa em hole_margin + hole_diameter + text_margin e termina text_margin antes da borda direita. Cada nome reduz o próprio tamanho se for longo: min(font_size, largura da área / len(nome)).
+- As marcas de registro entram uma vez só, nos cantos do lote inteiro, não em cada chaveiro.
+- Mostre com echo() quantos chaveiros há e a largura e altura do lote.

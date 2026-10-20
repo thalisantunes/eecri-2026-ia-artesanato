@@ -1,0 +1,10 @@
+ECHO: largura_final = 70, altura_final = 25, espessura_mdf = 3
+ECHO: raio_canto = 4, diametro_furo = 4.5, centro_furo_x = 5.75, centro_furo_y = 12.5
+ECHO: largura_livre = 56, tamanho_letra = 8
+Geometries in cache: 14
+Geometry cache size in bytes: 20928
+CGAL Polyhedrons in cache: 0
+CGAL cache size in bytes: 0
+Total rendering time: 0:00:00.000
+   Top level object is a 2D object:
+   Contours:        4

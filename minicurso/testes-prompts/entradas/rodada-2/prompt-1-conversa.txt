@@ -1,0 +1,39 @@
+=== MENSAGEM 1 DO USUARIO ===
+Você vai escrever código OpenSCAD para peças que serão cortadas e gravadas numa máquina a laser. Siga estas regras em todas as respostas desta conversa.
+
+1. Versão: OpenSCAD 2021.01. Use só a linguagem básica. Nada de bibliotecas (nenhum include nem use). Estes recursos NÃO existem nesta versão e não podem aparecer: roof(), fill(), textmetrics(). Não use minkowski(); para cantos arredondados use offset().
+2. Unidade: tudo em milímetros. Nunca use centímetros nem polegadas.
+3. Só 2D no topo: o que o arquivo gera no nível mais alto deve ser geometria 2D (square, circle, polygon, text, offset, difference, union, translate, rotate). Não use cube, cylinder, linear_extrude, rotate_extrude nem nenhum objeto 3D no topo do arquivo, nem para pré-visualização.
+4. Parâmetros: todos os números ficam no começo do arquivo, como variáveis com nome em inglês e um comentário em português, sem acento, com a unidade. Nada de número solto no meio do código, exceto constantes óbvias (0, 1, 2).
+5. Camadas: o arquivo tem a variável layer = "cut"; // [cut, engrave]. Quando layer for "cut", o topo gera só o que deve ser CORTADO (contornos e furos). Quando layer for "engrave", gera só o que deve ser GRAVADO (texto e desenhos). O arquivo será exportado duas vezes, uma por camada.
+6. Marcas de registro: inclua a variável registration = true; e, quando for true, desenhe nas DUAS camadas dois círculos de 0.6 mm de diâmetro (com $fn = 16). O centro de um fica 3 mm abaixo e 3 mm à esquerda do canto inferior esquerdo da área ocupada pelas peças (3 mm em X e 3 mm em Y); o centro do outro fica 3 mm acima e 3 mm à direita do canto superior direito. Elas fazem os dois arquivos terem o mesmo quadro.
+7. Kerf: NÃO compense o kerf na geometria. A compensação é feita no software de corte. A única folga permitida é o parâmetro clearance, usado só em encaixes.
+8. Texto: use a fonte Liberation Sans, com o parâmetro bold (true = negrito, o padrão): font = bold ? "Liberation Sans:style=Bold" : "Liberation Sans". O texto deve caber dentro da peça.
+9. Círculos: use $fn = 64.
+10. Conferência: use echo() para escrever no console as dimensões finais (largura e altura totais da peça ou do conjunto de peças e outros números que eu possa conferir).
+11. Resposta: devolva o arquivo COMPLETO num único bloco de código, sem reticências nem trechos omitidos. Depois do código, explique em até 5 linhas o que cada parâmetro faz. Se algo no meu pedido for ambíguo, pergunte antes de escrever o código.
+
+Responda só "entendido" e espere o pedido da peça.
+
+=== SUA RESPOSTA A MENSAGEM 1 ===
+entendido
+
+=== MENSAGEM 2 DO USUARIO ===
+Peça: chaveiro retangular de cantos arredondados, com furo para argola e nome gravado.
+Material: MDF de 3 mm. A peça é plana, a espessura não entra no desenho.
+
+Use estes nomes de parâmetros e estes valores iniciais:
+- width = 70 (largura da peça, mm)
+- height = 25 (altura da peça, mm)
+- corner_radius = 4 (raio dos cantos, mm)
+- hole_diameter = 4.5 (diâmetro do furo da argola, mm)
+- hole_margin = 3.5 (distância da borda esquerda da peça até a borda do furo, mm)
+- label = "MARIA" (texto gravado)
+- font_size = 8 (tamanho desejado das letras, o size do OpenSCAD, mm)
+- bold = true (negrito)
+- text_margin = 3 (folga entre o texto e as bordas ou o furo, mm)
+
+Camada "cut": o contorno com cantos arredondados MENOS o furo. O furo deve ser um furo de verdade (use difference()) e fica centralizado na altura.
+Camada "engrave": só o texto (mais as marcas de registro), centralizado na altura e na área livre à direita do furo. Essa área começa em hole_margin + hole_diameter + text_margin, contado a partir da borda esquerda, e termina text_margin antes da borda direita. Chame a largura dessa área de text_w.
+Se o nome tiver letras demais, reduza o tamanho: tamanho final = min(font_size, text_w / len(label)).
+Mostre com echo() a largura e a altura da peça e o tamanho final do texto.

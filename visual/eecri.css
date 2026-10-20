@@ -1,0 +1,429 @@
+/* @theme eecri */
+/* Licenca: MIT (ver LICENSE). */
+/*
+ * Tema Marp do I EECri 2026 (1º Encontro de Economia Criativa da Serra Geral).
+ * Identidade inspirada no site oficial (https://sites.4.events/eecri): fundo creme com bolhas verdes suaves,
+ * grade de pontos laranja, títulos em Archivo Black caixa alta verde escuro,
+ * texto em Space Grotesk, destaque manuscrito em Caveat laranja.
+ *
+ * Os caminhos url() abaixo são relativos ao .md do deck e supõem que o deck
+ * está um nível abaixo da raiz do repositório (palestra/, minicurso/ ...).
+ * Uso: marp --allow-local-files --theme-set ../visual/eecri.css slides.md
+ */
+
+/* ---------- Fontes locais (offline) ---------- */
+@font-face {
+  font-family: 'Archivo Black';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../visual/fonts/archivo-black-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Archivo Black';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../visual/fonts/archivo-black-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 300 700;
+  src: url('../visual/fonts/space-grotesk-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 300 700;
+  src: url('../visual/fonts/space-grotesk-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 400 700;
+  src: url('../visual/fonts/caveat-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 400 700;
+  src: url('../visual/fonts/caveat-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ---------- Tokens ---------- */
+:root {
+  --verde: #236c2b;
+  --verde-escuro: #164a1c;
+  --laranja: #ef7527;
+  /* laranja para TEXTO pequeno: o #ef7527 puro tem contraste baixo no creme */
+  --laranja-texto: #b8501a;
+  --azul: #b6e7ee;
+  --azul-profundo: #0b3d5c;
+  --creme: #f7f1e3;
+  --creme-2: #efe6cf;
+  --tinta: #1a2419;
+  --tinta-mole: #3a3f38;
+  --branco: #fffdf8;
+
+  /* grade de pontos laranja do site (8 x 6), usada no canto superior direito */
+  --pontos: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='176' height='132'%3E%3Cdefs%3E%3Cpattern id='p' width='22' height='22' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='4' cy='4' r='2.6' fill='%23ef7527' fill-opacity='.55'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='176' height='132' fill='url(%23p)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Base ---------- */
+section {
+  width: 1280px;
+  height: 720px;
+  box-sizing: border-box;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  padding: 64px 70px 84px;
+  font-family: 'Space Grotesk', 'DejaVu Sans', sans-serif;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 1.3;
+  color: var(--tinta);
+  background-color: var(--creme);
+  background-image:
+    var(--pontos),
+    radial-gradient(circle at 0% 0%, rgba(35, 108, 43, 0.22) 0, rgba(35, 108, 43, 0.10) 150px, rgba(35, 108, 43, 0) 260px),
+    radial-gradient(ellipse 520px 420px at 4% 96%, rgba(35, 108, 43, 0.10), rgba(35, 108, 43, 0)),
+    radial-gradient(ellipse 560px 460px at 102% 104%, rgba(239, 117, 39, 0.13), rgba(239, 117, 39, 0)),
+    linear-gradient(115deg, #e9ecd9 0%, var(--creme) 46%, #f6ecdc 100%);
+  background-repeat: no-repeat;
+  background-position: right 38px top 26px, 0 0, 0 0, 0 0, 0 0;
+  background-size: 176px 132px, auto, auto, auto, auto;
+  /* conteúdo começa no alto, como no deck original */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+section > * { position: relative; z-index: 1; }
+
+section h1,
+section h2 {
+  font-family: 'Archivo Black', 'DejaVu Sans', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--verde-escuro);
+  letter-spacing: -0.005em;
+  line-height: 1.06;
+  margin: 0 0 0.5em 0;
+}
+section h1 { font-size: 1.3em; }
+section h2 { font-size: 1.0em; }
+section h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1em;
+  color: var(--verde);
+  margin: 0.2em 0 0.4em;
+}
+
+section p { margin: 0.4em 0; }
+section ul,
+section ol { margin: 0.2em 0; padding-left: 1.15em; }
+section li { margin: 0.25em 0; line-height: 1.27; }
+section ul > li::marker { color: var(--laranja); font-size: 1.05em; }
+section ol > li::marker { color: var(--laranja-texto); font-weight: 700; }
+section strong { color: var(--verde-escuro); font-weight: 700; }
+section em { color: var(--tinta-mole); }
+section a { color: var(--azul-profundo); text-decoration: underline; text-decoration-color: var(--laranja); }
+section code {
+  font-family: 'DejaVu Sans Mono', monospace;
+  font-size: 0.85em;
+  background: var(--creme-2);
+  padding: 0.05em 0.3em;
+  border-radius: 6px;
+}
+section img { max-width: 100%; }
+/* imagem com altura fixa no markdown (![h:440]) não empurra a legenda para o rodapé */
+section p > img[style*="height"] { max-height: 400px; width: auto; }
+section p:has(> img:only-child) { text-align: center; }
+
+/* texto menor, mas nunca abaixo de 26px */
+section .small {
+  font-size: 26px;
+  color: var(--tinta-mole);
+  line-height: 1.3;
+}
+
+/* ---------- Rótulo laranja com tracinho (header do Marp) ---------- */
+section header,
+section .rotulo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--laranja-texto);
+}
+section header {
+  position: absolute;
+  left: 70px;
+  top: 20px;
+  right: 40px;
+  margin: 0;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+section header::before,
+section .rotulo::before {
+  content: '';
+  display: inline-block;
+  width: 40px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--laranja);
+  flex: none;
+}
+section .rotulo { display: flex; align-items: center; gap: 16px; margin: 0 0 0.4em; }
+section:has(> header) { padding-top: 76px; }
+/* título não invade a grade de pontos do canto (176 x 132 a 38px da borda) quando não há imagem dividindo o slide */
+section:has(> header):not([data-marpit-advanced-background-split]) > h1 { margin-right: 150px; }
+
+/* ---------- Rodapé com logo pequeno do evento ---------- */
+section footer {
+  position: absolute;
+  left: 70px;
+  bottom: 18px;
+  right: 180px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  /* versao publica: sem o logo do evento no rodape (ver README) */
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--tinta-mole);
+  white-space: nowrap;
+}
+
+/* paginação */
+section::after {
+  content: attr(data-marpit-pagination);
+  position: absolute;
+  right: 54px;
+  bottom: 18px;
+  height: 40px;
+  min-width: 40px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: var(--verde);
+  color: var(--creme);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+}
+section:not([data-marpit-pagination])::after { display: none; }
+
+/* ---------- Destaque manuscrito (Caveat), como "CRIATIVA" no site ---------- */
+section .hand,
+section.lead h3 {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  color: var(--laranja-texto);
+  text-transform: none;
+  letter-spacing: 0;
+}
+section .hand {
+  font-size: 1.35em;
+  line-height: 1;
+  background: linear-gradient(transparent 70%, rgba(239, 117, 39, 0.22) 70%, rgba(239, 117, 39, 0.22) 92%, transparent 92%);
+  padding: 0 0.08em;
+}
+
+/* ---------- Caixa de lição (blockquote ou <div class="licao">) ---------- */
+section blockquote,
+section .licao {
+  margin: 0.7em 0 0;
+  padding: 0.45em 0.9em 0.45em 0.95em;
+  background: rgba(255, 253, 248, 0.88);
+  border: 2px solid var(--creme-2);
+  border-left: 10px solid var(--laranja);
+  border-radius: 6px 18px 18px 6px;
+  font-size: 0.88em;
+  line-height: 1.3;
+  color: var(--tinta);
+  box-shadow: 0 6px 18px rgba(22, 74, 28, 0.08);
+}
+section blockquote p,
+section .licao p { margin: 0.1em 0; }
+section blockquote strong,
+section .licao strong { color: var(--laranja-texto); }
+
+/* ---------- Tabelas ---------- */
+section table {
+  display: table;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  margin: 0.3em 0 0.5em;
+  font-size: 0.82em;
+  background: var(--branco);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 0 0 2px var(--creme-2);
+}
+section th {
+  background: var(--verde-escuro);
+  color: var(--creme);
+  font-weight: 700;
+  text-align: left;
+  padding: 0.32em 0.7em;
+  border: 0;
+}
+section td {
+  padding: 0.3em 0.7em;
+  border: 0;
+  border-bottom: 1px solid var(--creme-2);
+  vertical-align: top;
+}
+section tr:nth-child(even) td { background: #f8f3e7; }
+section tr:last-child td { border-bottom: 0; }
+
+/* ---------- Imagens lado a lado ----------
+ * <div class="lado-a-lado">
+ *
+ * ![](a.png) ![](b.png)
+ *
+ * </div>
+ */
+section .lado-a-lado,
+section .lado-a-lado > p {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  justify-content: center;
+  margin: 0.3em 0;
+}
+section .lado-a-lado img {
+  flex: 1 1 0;
+  min-width: 0;
+  max-height: 440px;
+  object-fit: contain;
+  border-radius: 14px;
+  background: var(--branco);
+  box-shadow: 0 0 0 2px var(--creme-2);
+}
+
+/* duas colunas de texto: <div class="colunas"> ... </div> com blocos dentro */
+section .colunas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+/* imagem de fundo dividida (![bg right:40%]): painel creme mais escuro */
+section[data-marpit-advanced-background="background"] > div[data-marpit-advanced-background-container] > figure {
+  background-color: var(--creme-2);
+}
+
+/* ---------- Densidade ---------- */
+section.compact { font-size: 27px; line-height: 1.25; }
+section.compact h1 { font-size: 1.4em; margin-bottom: 0.4em; }
+section.compact li { margin: 0.18em 0; line-height: 1.22; }
+section.compact blockquote { font-size: 1em; margin-top: 0.5em; }
+section.compact .small { margin: 0.3em 0; }
+section.compact table { font-size: 26px; }
+section.big { font-size: 40px; }
+section.big h1 { font-size: 1.2em; }
+
+/* ---------- Capa (lead) ---------- */
+section.lead {
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+section.lead h1 {
+  font-size: 2.6em;
+  line-height: 1;
+  margin: 0 0 0.12em;
+}
+section.lead h3 {
+  font-size: 1.55em;
+  line-height: 1.1;
+  margin: 0 0 0.7em;
+}
+section.lead p { margin: 0.2em 0; }
+
+/* ---------- Seção (divisória) ---------- */
+section.secao {
+  justify-content: center;
+  background-image:
+    var(--pontos),
+    radial-gradient(circle at 92% 84%, rgba(239, 117, 39, 0.20) 0, rgba(239, 117, 39, 0) 300px),
+    radial-gradient(circle at 0% 0%, rgba(35, 108, 43, 0.26) 0, rgba(35, 108, 43, 0) 360px),
+    linear-gradient(115deg, #e3e9d2 0%, var(--creme-2) 100%);
+}
+section.secao h1 { font-size: 2.2em; line-height: 1; margin-bottom: 0.15em; }
+section.secao h1 + p,
+section.secao h3 {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: 1.5em;
+  color: var(--laranja-texto);
+  margin: 0;
+}
+
+/* ---------- Destaque / CTA ---------- */
+section.cta {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--creme);
+  background-color: var(--verde);
+  background-image:
+    var(--pontos),
+    radial-gradient(circle at 0% 0%, rgba(182, 231, 238, 0.20) 0, rgba(182, 231, 238, 0) 300px),
+    radial-gradient(circle at 100% 100%, rgba(182, 231, 238, 0.14) 0, rgba(182, 231, 238, 0) 420px),
+    linear-gradient(135deg, var(--verde) 0%, #1d5d24 100%);
+}
+section.cta h1 { color: var(--branco); font-size: 1.9em; margin-bottom: 0.3em; }
+section.cta strong { color: var(--azul); }
+section.cta p { margin: 0.3em 0; }
+section.cta footer { color: var(--creme-2); background-image: none; padding-left: 0; }
+section.cta::after { background: var(--creme); color: var(--verde-escuro); }
+section.cta .hand { color: var(--azul); background: none; }
+
+/* ---------- Encerramento ---------- */
+/* versao publica: a faixa de logos dos realizadores fica fora (ver README) */
+section.encerramento footer,
+section.encerramento::after { display: none; }
+
+/* capa: rótulo do evento no alto e logo do I EECri no canto */
+section.lead:not(.encerramento)::before {
+  content: '1ª edição · Norte de Minas';
+  position: absolute;
+  top: 46px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--laranja-texto);
+}
+section.lead:not(.encerramento) {
+  background-image:
+    var(--pontos),
+    radial-gradient(circle at 0% 0%, rgba(35, 108, 43, 0.24) 0, rgba(35, 108, 43, 0.10) 170px, rgba(35, 108, 43, 0) 300px),
+    radial-gradient(ellipse 560px 460px at 102% 104%, rgba(239, 117, 39, 0.16), rgba(239, 117, 39, 0)),
+    linear-gradient(115deg, #e9ecd9 0%, var(--creme) 46%, #f6ecdc 100%);
+  background-repeat: no-repeat;
+  background-position: right 38px top 26px, 0 0, 0 0, 0 0;
+  background-size: 176px 132px, auto, auto, auto;
+}

@@ -1,0 +1,14 @@
+ECHO: "Dimensões finais da peça (mm):", 70, 25
+ECHO: "Raio dos cantos (mm):", 4
+ECHO: "Diâmetro do furo (mm):", 4.5
+ECHO: "Centro do furo (mm):", [5.75, 12.5]
+ECHO: "Espessura do MDF (mm):", 3
+ECHO: "Largura livre para o nome (mm):", 56
+ECHO: "Tamanho da letra (mm):", 8
+Geometries in cache: 7
+Geometry cache size in bytes: 23888
+CGAL Polyhedrons in cache: 0
+CGAL cache size in bytes: 0
+Total rendering time: 0:00:00.005
+   Top level object is a 2D object:
+   Contours:       10

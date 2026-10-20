@@ -1,0 +1,16 @@
+ECHO: "Largura: 96.8 mm"
+ECHO: "Profundidade: 45 mm"
+ECHO: "Altura: 39.1259 mm"
+Geometries in cache: 19
+Geometry cache size in bytes: 96048
+CGAL Polyhedrons in cache: 2
+CGAL cache size in bytes: 296896
+Total rendering time: 0:00:00.064
+   Top level object is a 3D object:
+   Simple:        yes
+   Vertices:      176
+   Halfedges:     542
+   Edges:         271
+   Halffacets:    210
+   Facets:        105
+   Volumes:         2

@@ -1,0 +1,15 @@
+ECHO: "layer = engrave"
+ECHO: "piece = 70 x 25 mm, corner radius = 4 mm"
+ECHO: "hole: diameter = 4.5 mm, center = (5.75, 12.5)"
+ECHO: "hole edge to left edge = 3.5 mm"
+ECHO: "free width for the name = 56 mm (from X=11 to X=67)"
+ECHO: "letter size = 8 mm (5 letters)"
+ECHO: "marks: diameter = 0.6 mm at (-3, -3) and (73, 28)"
+ECHO: "material = 3 mm MDF, kerf not compensated"
+Geometries in cache: 7
+Geometry cache size in bytes: 17760
+CGAL Polyhedrons in cache: 0
+CGAL cache size in bytes: 0
+Total rendering time: 0:00:00.006
+   Top level object is a 2D object:
+   Contours:       10

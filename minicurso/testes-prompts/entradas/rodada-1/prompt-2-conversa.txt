@@ -1,0 +1,46 @@
+=== MENSAGEM 1 DO USUARIO ===
+Você vai escrever código OpenSCAD para peças que serão cortadas e gravadas numa máquina a laser. Siga estas regras em todas as respostas desta conversa.
+
+1. Versão: OpenSCAD 2021.01. Use só a linguagem básica. Nada de bibliotecas (nenhum include nem use). Estes recursos NÃO existem nesta versão e não podem aparecer: roof(), fill(), textmetrics(). Não use minkowski(); para cantos arredondados use offset().
+2. Unidade: tudo em milímetros. Nunca use centímetros nem polegadas.
+3. Só 2D no topo: o que o arquivo gera no nível mais alto deve ser geometria 2D (square, circle, polygon, text, offset, difference, union, translate, rotate). Não use cube, cylinder, linear_extrude, rotate_extrude nem nenhum objeto 3D no topo do arquivo, nem para pré-visualização.
+4. Parâmetros: todos os números ficam no começo do arquivo, como variáveis com nome em inglês e um comentário em português, sem acento, com a unidade. Nada de número solto no meio do código, exceto constantes óbvias (0, 1, 2).
+5. Camadas: o arquivo tem a variável layer = "cut"; // [cut, engrave]. Quando layer for "cut", o topo gera só o que deve ser CORTADO (contornos e furos). Quando layer for "engrave", gera só o que deve ser GRAVADO (texto e desenhos). O arquivo será exportado duas vezes, uma por camada.
+6. Marcas de registro: inclua a variável registration = true; e, quando for true, desenhe nas DUAS camadas dois círculos de 0.6 mm de diâmetro (com $fn = 16): um 3 mm abaixo e à esquerda do canto inferior esquerdo da área ocupada pelas peças, outro 3 mm acima e à direita do canto superior direito. Elas fazem os dois arquivos terem o mesmo quadro.
+7. Kerf: NÃO compense o kerf na geometria. A compensação é feita no software de corte. A única folga permitida é o parâmetro clearance, usado só em encaixes.
+8. Texto: use a fonte Liberation Sans, com o parâmetro bold (true = negrito, o padrão): font = bold ? "Liberation Sans:style=Bold" : "Liberation Sans". O texto deve caber dentro da peça.
+9. Círculos: use $fn = 64.
+10. Conferência: use echo() para escrever no console as dimensões finais (largura e altura totais da peça ou do conjunto de peças e outros números que eu possa conferir).
+11. Resposta: devolva o arquivo COMPLETO num único bloco de código, sem reticências nem trechos omitidos. Depois do código, explique em até 5 linhas o que cada parâmetro faz. Se algo no meu pedido for ambíguo, pergunte antes de escrever o código.
+
+Responda só "entendido" e espere o pedido da peça.
+
+=== SUA RESPOSTA A MENSAGEM 1 ===
+entendido
+
+=== MENSAGEM 2 DO USUARIO ===
+Peça: caixa pequena de MDF com cantos de encaixe tipo finger joint e tampa lisa opcional.
+Material: MDF de 3 mm. Eu vou medir a espessura real com paquímetro e colocar o valor em thickness.
+
+Use estes nomes de parâmetros e estes valores iniciais:
+- length = 80, width = 60, height = 40 (medidas EXTERNAS da caixa: comprimento em X, largura em Y e altura das paredes, mm)
+- thickness = 3 (espessura do material, mm)
+- finger_width = 10 (largura-alvo de cada dedo, mm)
+- clearance = 0.1 (folga total entre dedo e fenda, mm)
+- with_lid = true (se true, inclui uma tampa lisa de length x width; se false, a caixa fica aberta)
+- spacing = 4 (espaço entre as peças no desenho, mm)
+- label = "CAIXA" e font_size = 8 (texto gravado no centro da tampa; só vale se with_lid for true)
+- bold = true
+
+Peças: 4 paredes (frente e trás com length x height; duas laterais com width x height), um fundo liso length x width (será colado por baixo das paredes) e a tampa lisa length x width. Total de 6 peças com tampa e 5 sem. Os dedos existem só nos 4 cantos verticais das paredes. O fundo e a tampa não têm dedos.
+
+Receita dos dedos (siga exatamente):
+1. Calcule n, o número de dedos ao longo da altura, como número ÍMPAR: n = 2 * round((height / finger_width - 1) / 2) + 1. A largura nominal de cada dedo é fh = height / n.
+2. Divida a altura de cada parede em n faixas de largura fh, numeradas de 0 a n - 1, de baixo para cima.
+3. Em cada ponta de cada parede existe uma zona de encaixe com largura igual a thickness. Nessa zona, frente e trás têm material nas faixas PARES (0, 2, 4...) e ficam vazados nas ÍMPARES. As duas laterais fazem o contrário: material nas faixas ÍMPARES e vazado nas PARES. Assim, em cada canto, uma peça preenche o que a outra deixa vazio.
+4. A folga clearance só afeta a largura das faixas ao longo da altura: o dedo fica clearance/2 mais estreito que fh e a fenda fica clearance/2 mais larga, de modo que a fenda seja clearance mais larga que o dedo. Não mexa na profundidade dos encaixes nem nas bordas externas.
+5. Mostre com echo(): n, a largura do dedo, a largura da fenda e a folga.
+
+Disposição das peças no desenho 2D (camada "cut"), com spacing entre todas: primeira linha, fundo e tampa lado a lado; segunda linha, frente e trás (length x height); terceira linha, as duas laterais (width x height).
+Camada "engrave": só o texto no centro da tampa (se with_lid for true).
+Mostre com echo() as medidas totais do desenho.
