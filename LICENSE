@@ -2,14 +2,6 @@ MIT License
 
 Copyright (c) 2026 Thalis Antunes de Souza
 
-This license covers the code and the models in this repository: OpenSCAD
-files (.scad) and the files generated from them (.svg, .dxf, .stl and the
-.png previews), Python scripts (.py), shell scripts (.sh) and the theme
-stylesheet (visual/eecri.css). Slides, scripts for the talk and the workshop,
-the handout and other texts are licensed under CC BY 4.0 (see
-LICENSE-CC-BY-4.0). Fonts in visual/fonts/ keep their own SIL Open Font
-License (see the OFL-*.txt files next to them).
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
